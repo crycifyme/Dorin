@@ -1,75 +1,86 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Card, Form, Input, Button } from 'antd';
-const { SubMenu } = Menu;
+import React, { useState, useEffect } from "react";
 
-const { Header, Content, Footer, Sider } = Layout;
+const UserInitial = [
+    { username: "nicu", password: "123" },
+    { username: "ion", password: "1234" },
+    { username: "vasile", password: "12345" },
+];
 
 const App = () => {
-    const [form] = Form.useForm();
-    const [cards, setCards] = useState([
-        { title: 'Laboratorul 1', content: 'Prezentat', prenume: 'Nota 10' },
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [EsteLogat, setEsteLogat] = useState(false);
+    const [users, SetareUser] = useState(UserInitial);
 
-    ]);
-    const handleSubmit = (values: { title: string; content: string; prenume: string }) => {
-        const newCard = { title: values.title, content: values.content, prenume: values.prenume };
-        const newCards = [...cards, newCard];
-        setCards(newCards);
-        console.log('valorile', values);
-        alert('Forma a fost adaugata');
+    useEffect(() => {
+        const storedUsers = localStorage.getItem("users");
+        if (storedUsers) {
+            SetareUser([...users, ...JSON.parse(storedUsers)]);
+        }
+    }, [users]);
+
+    const handleLogin = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        const foundUser = users.find(
+            (user) => user.username === username && user.password === password
+        );
+        if (foundUser) {
+            setEsteLogat(true);
+            localStorage.setItem("EsteLogat", "true");
+            localStorage.setItem("user", JSON.stringify(foundUser));
+            alert("Autentificare reușită");
+        } else {
+            alert("Login eșuat");
+        }
     };
-    return (
-        <Layout>
-            <Header style={{ display: 'flex', justifyContent: 'center' }}>
-                <Menu theme="dark" mode="horizontal">
-                    <Menu.Item key="1">LABORATORUL 3</Menu.Item>
-                </Menu>
-            </Header>
-            <Layout>
-                <Sider width={300} style={{ background: '#fff' }}>
-                    <Menu
-                        theme="light"
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%', borderRight: 0 }}
-                    >
-                        <SubMenu key="sub1" title="Menu">
-                            <Menu.Item key="1">Laboratoarele necesare</Menu.Item>
-                            <Menu.Item key="2">Laboratoarele date</Menu.Item>
-                            <Menu.Item key="3">Laboratoarele in proces</Menu.Item>
-                        </SubMenu>
-                    </Menu>
-                </Sider>
 
-                <Content style={{ padding: '50px' }}>
-                    <Form form={form} onFinish={handleSubmit}>
-                        <Form.Item name="title" rules={[{ required: true, message: 'Introduceți Laboratorul' }]}>
-                            <Input placeholder="Laboratorul" />
-                        </Form.Item>
-                        <Form.Item name="content" rules={[{ required: true, message: 'Introduceti starea' }]}>
-                            <Input placeholder="Prezentat sau ne prezentat" />
-                        </Form.Item>
-                        <Form.Item name="prenume" rules={[{ required: true, message: 'Introduceti nota' }]}>
-                            <Input placeholder="Nota" />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Trimite
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {cards.map(card => (
-                            <Card key={card.title} style={{ width: 300}}>
-                                <Card.Meta title={`${card.title} - ${card.prenume}`} description={card.content} />
-                            </Card>
-                        ))}
-                    </div>
-                </Content>
-            </Layout>
 
-        </Layout>
-    );
+    const handleLogout = () => {
+        setEsteLogat(false);
+        localStorage.setItem("EsteLogat", "false");
+        alert("Succes la deconectare");
+    };
+
+    const renderLoginForm = () => {
+        return (
+
+            <form onSubmit={handleLogin}>
+                <label>
+                    Username:
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    />
+                </label>
+                <br />
+                <label>
+                    Password:
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                    />
+                </label>
+                <br />
+                <button type="submit">Autentificare</button>
+            </form>
+        );
+    };
+
+    const renderLogoutButton = () => {
+        const storedUser = localStorage.getItem("user");
+        const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
+        return (
+            <div>
+                {loggedInUser && <p>User : {loggedInUser.username}</p>}
+                <button onClick={handleLogout}>Ieșire</button>
+            </div>
+        );
+    };
+
+
+    return <div>{EsteLogat ? renderLogoutButton() : renderLoginForm()}</div>;
 };
 
 export default App;
