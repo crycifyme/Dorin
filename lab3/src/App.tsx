@@ -35,7 +35,7 @@ function MyComponent() {
     return (
 
         <div className="container">
-            <h1 className="title">Varzari Nicolae Laboratorul 5</h1>
+            <h1 className="title">Dorin</h1>
             <form className="form" onSubmit={handleAddObject}>
                 <input className="input" type="text" placeholder="Nume" value={localData.name} onChange={e => setLocalData({ ...localData, name: e.target.value })} />
                 <input className="input" type="text" placeholder="Adresa" value={localData.address} onChange={e => setLocalData({ ...localData, address: e.target.value })} />
