@@ -8,8 +8,8 @@ interface MyInfo {
 
 export function Pagina2() {
     const [myInfo, setMyInfo] = useState<MyInfo>({
-        name: 'Varzari Nicolae',
-        age: 21,
+        name: 'Lisnic Dorin',
+        age: 20,
         id: 'CR-212',
     });
 
