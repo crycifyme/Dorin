@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const UserInitial = [
-    { username: "nicu", password: "123" },
-    { username: "ion", password: "1234" },
-    { username: "vasile", password: "12345" },
+    { username: "dorin.lisnic@gmail.com", password: "parolasiemailincorect" },
 ];
 
 const App = () => {
