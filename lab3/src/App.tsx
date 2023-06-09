@@ -85,7 +85,7 @@ function MyComponent() {
     return (
 
         <div className="container">
-            <h1 className="title">Varzari Nicolae Laboratorul 5.2</h1>
+            <h1 className="title">Dorin</h1>
             <header>
                 <img
                     src="https://www.freepnglogos.com/uploads/mr-bean/rowan-atkinson-png-download-bean-png-image-for-0.png"
