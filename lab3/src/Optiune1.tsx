@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 
 const images = [
-    'https://picsum.photos/id/237/400/300',
-    'https://picsum.photos/id/238/400/300',
-    'https://picsum.photos/id/239/400/300',
-    'https://picsum.photos/id/240/400/300',
+    'https://www.shareicon.net/data/256x256/2016/01/05/232811_hatake_256x256.png',
 ];
 export  function Optiune1() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
